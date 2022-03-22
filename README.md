@@ -2,22 +2,22 @@
 
 Simple 21-day habit tracker
 
-# Problem statement
+## Problem statement
 
 ...
 
-# Tools
+## Tools
 
 ...
 
-# GUI layout
+## GUI layout
 
 ...
 
-# Functionality
+## Functionality
 
 ...
 
-# Developers
+## Developers
 
 ...
