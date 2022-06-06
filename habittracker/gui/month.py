@@ -201,7 +201,7 @@ class StatsWindow(Toplevel):
         self.lbl_least_popular_habit_answer = Label(master=self.popular_frame, text=', '.join([habits_names[i] for i in least_popular_lists[0]]), height=1)
         self.lbl_least_popular_habit_answer.grid(row=3, column=1, sticky='w')
         self.wait_window()
-    
+
 
 # разобраться с именем файла
 monthwindow = MonthWindow('../data/months/june2022.txt')
