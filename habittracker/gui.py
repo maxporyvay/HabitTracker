@@ -2,7 +2,7 @@ from tkinter import Tk, Label, Button, StringVar, Entry, IntVar, Radiobutton, Ch
 from calendar import monthrange
 from os import listdir
 from datetime import date
-from os.path import exists
+from os.path import exists, dirname
 from functools import partial
 from habittracker.calc_stats import calc_most_popular, calc_least_popular, calc_ticks_numbers
 
@@ -89,7 +89,7 @@ def show_plan(*args):
         year = args[2]
     else:
         print("Что-то не так")
-    dir_path = "./habittracker/data/plans/"
+    dir_path = dirname(__file__) + '/data/plans'
     file_name = d_mon[mon] + str(year) + ".txt"
     file_full_name = dir_path + file_name
     if exists(file_full_name) == False:
@@ -138,7 +138,7 @@ flag_tr0_plans1 = 0
 
 def info_tr(s):
     # разобраться с именем файла
-    monthwindow = MonthWindow('habittracker/data/tracker/' + s + '.txt')
+    monthwindow = MonthWindow(dirname(__file__) + '/data/tracker/' + s + '.txt')
     monthwindow.mainloop()
 
 
@@ -183,7 +183,7 @@ def view_info():
     info_plans_menu = Tk()
     info_plans_menu.geometry('400x800')
 
-    dirrectory = './habittracker/data/plans'
+    dirrectory = dirname(__file__) + '/data/plans'
     files_indir = listdir(dirrectory)
     files_indir.remove('.DS_Store')
     files = []
@@ -195,7 +195,7 @@ def view_info():
     lbl_files = Label(info_plans_menu, text=all_files)
     lbl_files.pack()
 
-    dir_path = "./habittracker/data/plans/"
+    dir_path = dirname(__file__) + '/data/plans'
 
     data_mon = StringVar()
     data_mon.set('Введите выбранный месяц, в формате, как он записан выше')
@@ -234,7 +234,7 @@ def saved_monthes():
     saved_monthes_menu = Tk()
     saved_monthes_menu.geometry('400x800')
 
-    dirrectory = './habittracker/data/plans'
+    dirrectory = dirname(__file__) + '/data/plans'
     files_indir = listdir(dirrectory)
     files_indir.remove('.DS_Store')
     files = []
@@ -268,7 +268,7 @@ def click_year():
 
 def click_mon():
     text_mon = int(entry_mon.get())
-    file_path = "./habittracker/data/tracker/"
+    file_path = dirname(__file__) + '/data/tracker'
     file_path += d_mon[text_mon]
     file_path += text_year
     file_path += ".txt"
@@ -277,7 +277,7 @@ def click_mon():
         fd.write("0\n")
         fd.write(str(monthrange(int(text_year), text_mon)[1]))
 
-    plan_path = "./habittracker/data/plans/"
+    plan_path = dirname(__file__) + '/data/plans'
     plan_path += d_mon[text_mon]
     plan_path += text_year
     plan_path += ".txt"
