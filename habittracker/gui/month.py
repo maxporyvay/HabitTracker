@@ -1,4 +1,4 @@
-from tkinter import Tk, Button, Label, Checkbutton, Frame, BooleanVar, X, END, ttk
+from tkinter import Tk, Button, Label, Checkbutton, Frame, BooleanVar, X, END, ttk, Toplevel
 from functools import partial
 import sys
 import os
@@ -47,10 +47,11 @@ class PlaceholderEntry(ttk.Entry):
 class MonthWindow(Tk):
     def __init__(self, filename):
         super().__init__()
+        # сюда приходит не filename, а что-то типа 'june2022', и его нужно конвертировать в filename
         self.filename = filename
         self.resizable(width=False, height=False)
 
-        self.menu_frame = Frame()
+        self.menu_frame = Frame(master=self)
         self.menu_frame.pack(fill=X)
         style = ttk.Style(self.menu_frame)
         style.configure('Placeholder.TEntry', foreground='#d5d5d5')
@@ -63,12 +64,12 @@ class MonthWindow(Tk):
         self.ent_del.grid(row=0, column=2, sticky='w')
         self.btn_del = Button(master=self.menu_frame, text='Delete habit', height=1, command=self.delHabit)
         self.btn_del.grid(row=0, column=3, sticky='w')
-        self.btn_stats = Button(master=self.menu_frame, text='Show statistics', height=1)
+        self.btn_stats = Button(master=self.menu_frame, text='Show additional statistics', height=1, command=self.showStats)
         self.btn_stats.grid(row=0, column=4, sticky='w')
         self.btn_save = Button(master=self.menu_frame, text='Save', height=1, command=self.saveData)
         self.btn_save.grid(row=0, column=5, sticky='w')
 
-        self.tracker_frame = Frame()
+        self.tracker_frame = Frame(master=self)
         self.tracker_frame.pack(fill=X)
 
         with open(filename) as input_file:
@@ -99,8 +100,31 @@ class MonthWindow(Tk):
                 self.checkbutton_matrix[i].append(cb)
                 cb.grid(row=i+1, column=j+1)
 
+        habitsum_list, daysum_list = calc_ticks_numbers(self.ticks_matrix)
+        self.daysumlabel_list = []
+        self.habitsumlabel_list = []
+        for i in range(self.days_number):
+            lbl = Label(master=self.tracker_frame, text=str(daysum_list[i]), height=1)
+            self.daysumlabel_list.append(lbl)
+            lbl.grid(row=len(self.habits_names)+1, column=i+1)
+        for i in range(len(self.habits_names)):
+            lbl = Label(master=self.tracker_frame, text=str(habitsum_list[i]), height=1)
+            self.habitsumlabel_list.append(lbl)
+            lbl.grid(row=i+1, column=self.days_number+1, sticky='e')
+
+    def showStats(self):
+        statswindow = StatsWindow(self)
+        statswindow.grab_set()
+        statswindow.stats(self.habits_names, self.ticks_matrix)
+
     def changeState(self, coords):
         i, j = coords
+        if self.ticks_matrix[i][j]:
+            self.daysumlabel_list[j]['text'] = str(int(self.daysumlabel_list[j]['text']) - 1)
+            self.habitsumlabel_list[i]['text'] = str(int(self.habitsumlabel_list[i]['text']) - 1)
+        else:
+            self.daysumlabel_list[j]['text'] = str(int(self.daysumlabel_list[j]['text']) + 1)
+            self.habitsumlabel_list[i]['text'] = str(int(self.habitsumlabel_list[i]['text']) + 1)
         self.ticks_matrix[i][j] = not self.ticks_matrix[i][j]
 
     def addHabit(self):
@@ -117,10 +141,11 @@ class MonthWindow(Tk):
                 var.set(False)
                 self.boolean_var_matrix[-1].append(var)
             self.checkbutton_matrix.append([])
+            i = len(self.habits_names)
             for j in range(self.days_number):
-                cb = Checkbutton(master=self.tracker_frame, var=self.boolean_var_matrix[-1][j])
+                cb = Checkbutton(master=self.tracker_frame, var=self.boolean_var_matrix[-1][j], command=partial(self.changeState, coords=(i - 1, j)))
                 self.checkbutton_matrix[-1].append(cb)
-                cb.grid(row=len(self.habits_names) + 1, column=j+1)
+                cb.grid(row=i+1, column=j+1)
 
     def delHabit(self):
         possible_habit_name = self.ent_del.get()
@@ -145,6 +170,37 @@ class MonthWindow(Tk):
             for i in range(len(self.habits_names)):
                 for j in range(self.days_number):
                     print(int(self.ticks_matrix[i][j]), file=output_file)
+
+
+class StatsWindow(Toplevel):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.resizable(width=False, height=False)
+        self.title(parent.month_name + ': Additional statistics')
+
+        self.popular_frame = Frame(master=self)
+        self.popular_frame.pack(fill=X)
+        self.lbl_most_popular_day = Label(master=self.popular_frame, text='Day with most habits achieved:', height=1)
+        self.lbl_most_popular_day.grid(row=0, column=0, sticky='e')
+        self.lbl_least_popular_day = Label(master=self.popular_frame, text='Day with least habits achieved:', height=1)
+        self.lbl_least_popular_day.grid(row=1, column=0, sticky='e')
+        self.lbl_most_popular_habit = Label(master=self.popular_frame, text='Habit achieved most frequent:', height=1)
+        self.lbl_most_popular_habit.grid(row=2, column=0, sticky='e')
+        self.lbl_least_popular_habit = Label(master=self.popular_frame, text='Habit achieved least frequent:', height=1)
+        self.lbl_least_popular_habit.grid(row=3, column=0, sticky='e')
+
+    def stats(self, habits_names, ticks_matrix):
+        most_popular_lists = calc_most_popular(ticks_matrix)
+        least_popular_lists = calc_least_popular(ticks_matrix)
+        self.lbl_most_popular_day_answer = Label(master=self.popular_frame, text=', '.join([str(i + 1) for i in most_popular_lists[1]]), height=1)
+        self.lbl_most_popular_day_answer.grid(row=0, column=1, sticky='w')
+        self.lbl_least_popular_day_answer = Label(master=self.popular_frame, text=', '.join([str(i + 1) for i in least_popular_lists[1]]), height=1)
+        self.lbl_least_popular_day_answer.grid(row=1, column=1, sticky='w')
+        self.lbl_most_popular_habit_answer = Label(master=self.popular_frame, text=', '.join([habits_names[i] for i in most_popular_lists[0]]), height=1)
+        self.lbl_most_popular_habit_answer.grid(row=2, column=1, sticky='w')
+        self.lbl_least_popular_habit_answer = Label(master=self.popular_frame, text=', '.join([habits_names[i] for i in least_popular_lists[0]]), height=1)
+        self.lbl_least_popular_habit_answer.grid(row=3, column=1, sticky='w')
+        self.wait_window()
 
 
 # разобраться с именем файла
