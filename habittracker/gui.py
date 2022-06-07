@@ -48,8 +48,84 @@ def to_menu_show_plans():
     main()
 
 
+def to_menu_add_plan_day():
+    add_plan_day_menu.destroy()
+    main()
+
+
+def to_menu_fast_adding():
+    fast_adding_menu.destroy()
+    main()
+
+
+def add_text_in_file(file_path, text_to_add, d):
+    with open(file_path, "r+") as fd:
+        lines = fd.readlines()
+        flag_day_was = 0
+        size = len(lines)
+        for i in range(size):
+            if lines[i][0] == str(d) and lines[i][1] == '$':
+                flag_day_was = 1
+                s_old = lines[i]
+                s_new = '\n' + lines[i][0] + lines[i][1] + '  ' + text_to_add + '\n' + s_old[2:]
+                lines[i] = s_new
+        if flag_day_was == 0:
+            s_new = '\n' + str(d) + '$' + '  ' + text_to_add
+            lines.append(s_new)
+        fd.seek(0)
+        fd.writelines(lines)
+
+
+def click_plan_day():
+    text_to_add = entry_plan_day.get()
+    today = date.today()
+    d = today.day
+    m = today.month
+    y = today.year
+    dir_path = dirname(__file__) + '/data/tracker/'
+    file_name = d_mon[m] + str(y) + ".txt"
+    file_path = dir_path + file_name
+    if exists(file_path) == False:
+        with open(file_path, "w") as fd:
+            fd.write(f'{d_mon[m]} {y}\n')
+            fd.write("0\n")
+            fd.write(str(monthrange(int(y), m)[1]))
+            fd.write("\n")
+    dir_path = dirname(__file__) + '/data/plans/'
+    file_name = d_mon[m] + str(y) + ".txt"
+    file_path = dir_path + file_name
+    if exists(file_path) == False:
+        with open(file_path, "w") as fd:
+            fd.write(f'{d_mon[m]} {y}\n')
+            fd.write("0\n")
+            fd.write(str(monthrange(int(y), m)[1]))
+            fd.write("\n")
+    add_text_in_file(file_path, text_to_add, d)
+
+
 def add_plan_day():
-    print("func add")
+    day_menu.destroy()
+    global add_plan_day_menu
+    add_plan_day_menu = Tk()
+    add_plan_day_menu.geometry('400x800')
+
+    data_plan_day = StringVar()
+    data_plan_day.set('Enter new plans for today')
+
+    lbl_plan_day = Label(add_plan_day_menu, textvariable=data_plan_day)
+    lbl_plan_day.pack()
+
+    global entry_plan_day
+    entry_plan_day = Entry(add_plan_day_menu)
+    entry_plan_day.pack()
+
+    btn_plan_day = Button(add_plan_day_menu, text="Add", width=11, height=3, bg="white", fg="black", command=click_plan_day)
+    btn_plan_day.pack()
+
+    btn_exit = Button(add_plan_day_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_add_plan_day)
+    btn_exit.pack()
+    add_plan_day_menu.mainloop()
+
 
 def show_day():
     day_menu.destroy()
@@ -59,12 +135,11 @@ def show_day():
     show_plan()
 
 def click_show_plans():
-    # какая-то проблема с переменной m
     d = day_plans.get()
     s_month = ""
     s_year = ""
     for i in month_info:
-        if i >= 'a' and i <= 'z':
+        if (i >= 'a' and i <= 'z') or i >= 'A' and i <= 'Z':
             s_month += i
         else:
             s_year += i
@@ -89,12 +164,12 @@ def show_plan(*args):
         mon = args[1]
         year = args[2]
     else:
-        print("Что-то не так")
-    dir_path = dirname(__file__) + '/data/plans'
+        print("Something wrong")
+    dir_path = dirname(__file__) + '/data/plans/'
     file_name = d_mon[mon] + str(year) + ".txt"
     file_full_name = dir_path + file_name
     if exists(file_full_name) == False:
-        lbl_out = Label(show_plan_menu, text="Задачи не запланированы")
+        lbl_out = Label(show_plan_menu, text="Tasks are not scheduled")
         lbl_out.pack()
     else:
         plans = []
@@ -110,7 +185,7 @@ def show_plan(*args):
                     flag = 1
                     plans.append(i)
             if len(plans) == 0:
-                plans.append("Задачи не запланированы")
+                plans.append("Tasks are not scheduled")
             all_info = "".join(plans)
             lbl_out = Label(show_plan_menu, text=all_info)
             lbl_out.pack()
@@ -152,23 +227,19 @@ def info_plans(s):
     show_plans_menu.geometry('400x800')
 
     data_day = StringVar()
-    data_day.set('Введите число')
+    data_day.set("Enter day")
     lbl_mon = Label(show_plans_menu, textvariable=data_day)
     lbl_mon.pack()
     global day_plans
     day_plans = Entry(show_plans_menu)
     day_plans.pack()
-    btn_choise = Button(show_plans_menu, text="Ввести", width=11, height=3, bg="white", fg="black", command=click_show_plans)
+    btn_choise = Button(show_plans_menu, text="Enter", width=11, height=3, bg="white", fg="black", command=click_show_plans)
     btn_choise.pack()
 
     btn_exit = Button(show_plans_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_show_plans)
     btn_exit.pack()
     show_plans_menu.mainloop()
 
-    """
-   
-    вызвать какую-то функцию где закроется данное окно и откроется show_plan(день, месяц, год)
-    """
 
 def click_plans():
     #text_choise_mon = mon_plans.get()
@@ -201,7 +272,7 @@ def view_info():
     #dir_path = dirname(__file__) + '/data/plans'
     
     global combo_files
-    combo_files = ttk.Combobox(master=info_plans_menu, values=files, text='Доступные месяцы:')
+    combo_files = ttk.Combobox(master=info_plans_menu, values=files, text='Available months:')
     combo_files.current(0)
     combo_files.pack()
 
@@ -215,7 +286,7 @@ def view_info():
     #mon_plans = Entry(info_plans_menu)
     #mon_plans.pack()
 
-    btn_choise = Button(info_plans_menu, text="выбрать", width=11, height=3, bg="white", fg="black", command=click_plans)
+    btn_choise = Button(info_plans_menu, text="Choose", width=11, height=3, bg="white", fg="black", command=click_plans)
     btn_choise.pack()
 
     btn_exit = Button(info_plans_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_info)
@@ -246,7 +317,7 @@ def saved_monthes():
     # files_indir = listdir(dirrectory)
     # files_indir.remove('.DS_Store')
     # files = []
-    # files.append("Доступные месяцы:")
+    # files.append("Available months:")
     # for i in files_indir:
     #     files.append(i[0:-4])
     # all_files = "\n".join(files)
@@ -262,8 +333,8 @@ def saved_monthes():
     # rad_plans = Radiobutton(saved_monthes_menu, text = 'Планы', value = 1, variable = data, command = view_info_plans)
     # rad_tr.pack()
     # rad_plans.pack()
-    btn_tr = Button(saved_monthes_menu, text = 'Трекер привычек', command=view_info_tr)
-    btn_plans = Button(saved_monthes_menu, text = 'Планы', command=view_info_plans)
+    btn_tr = Button(saved_monthes_menu, text = 'Habit tracker', command=view_info_tr)
+    btn_plans = Button(saved_monthes_menu, text = 'Plans', command=view_info_plans)
     btn_tr.pack()
     btn_plans.pack()
 
@@ -289,15 +360,18 @@ def click_mon():
         fd.write(f'{d_mon[text_mon]} {text_year}\n')
         fd.write("0\n")
         fd.write(str(monthrange(int(text_year), text_mon)[1]))
+        fd.write("\n")
 
     plan_path = dirname(__file__) + '/data/plans/'
     plan_path += d_mon[text_mon]
     plan_path += text_year
     plan_path += ".txt"
-    with open(plan_path, "w") as fd:
-        fd.write(f'{d_mon[text_mon]} {text_year}\n')
-        fd.write("0\n")
-        fd.write(str(monthrange(int(text_year), text_mon)[1]))
+    if exists(plan_path) == False:
+        with open(plan_path, "w") as fd:
+            fd.write(f'{d_mon[m]} {y}\n')
+            fd.write("0\n")
+            fd.write(str(monthrange(int(y), m)[1]))
+            fd.write("\n")
 
 
 def add_month():
@@ -307,7 +381,7 @@ def add_month():
     add_month_menu.geometry('400x800')
 
     data_year = StringVar()
-    data_year.set('Введите год добавляемого месяца')
+    data_year.set('Enter the year of the month to be added')
 
     lbl_year = Label(add_month_menu, textvariable=data_year)
     lbl_year.pack()
@@ -320,7 +394,7 @@ def add_month():
     #btn_year.pack()
 
     data_mon = StringVar()
-    data_mon.set('Введите номер добавляемого  месяца')
+    data_mon.set('Enter the number of the month to be added')
 
     lbl_mon = Label(add_month_menu, textvariable=data_mon)
     lbl_mon.pack()
@@ -329,7 +403,7 @@ def add_month():
     entry_mon = Entry(add_month_menu)
     entry_mon.pack()
 
-    btn_mon = Button(add_month_menu, text="добавить месяц", width=11, height=3, bg="white", fg="black", command=click_mon)
+    btn_mon = Button(add_month_menu, text="Add month", width=11, height=3, bg="white", fg="black", command=click_mon)
     btn_mon.pack()
 
     btn_exit = Button(add_month_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_add_month)
@@ -356,14 +430,95 @@ def month():
     month_menu.mainloop()
 
 
+def click_plan_day_fast():
+    d = int(entry_day_plan.get())
+    m = int(entry_mon_plan.get())
+    y = int(entry_year_plan.get())
+    text_to_add = entry_text_plan.get()
+    dir_path = dirname(__file__) + '/data/tracker/'
+    file_name = d_mon[m] + str(y) + ".txt"
+    file_path = dir_path + file_name
+    if exists(file_path) == False:
+        with open(file_path, "w") as fd:
+            fd.write(f'{d_mon[m]} {y}\n')
+            fd.write("0\n")
+            fd.write(str(monthrange(int(y), m)[1]))
+            fd.write("\n")
+    dir_path = dirname(__file__) + '/data/plans/'
+    file_name = d_mon[m] + str(y) + ".txt"
+    file_path = dir_path + file_name
+    if exists(file_path) == False:
+        with open(file_path, "w") as fd:
+            fd.write(f'{d_mon[m]} {y}\n')
+            fd.write("0\n")
+            fd.write(str(monthrange(int(y), m)[1]))
+            fd.write("\n")
+    add_text_in_file(file_path, text_to_add, d)
+
+
+def fast_adding():
+    main_menu.destroy()
+    global fast_adding_menu
+    fast_adding_menu = Tk()
+    fast_adding_menu.geometry('400x800')
+
+    data_day = StringVar()
+    data_day.set('Day:')
+    lbl_day = Label(fast_adding_menu, textvariable=data_day)
+    lbl_day.pack()
+    global entry_day_plan
+    entry_day_plan = Entry(fast_adding_menu)
+    entry_day_plan.pack()
+
+    data_mon = StringVar()
+    data_mon.set('Month number:')
+    lbl_mon = Label(fast_adding_menu, textvariable=data_mon)
+    lbl_mon.pack()
+    global entry_mon_plan
+    entry_mon_plan = Entry(fast_adding_menu)
+    entry_mon_plan.pack()
+
+    data_year = StringVar()
+    data_year.set('Year:')
+    lbl_year = Label(fast_adding_menu, textvariable=data_year)
+    lbl_year.pack()
+    global entry_year_plan
+    entry_year_plan = Entry(fast_adding_menu)
+    entry_year_plan.pack()
+
+    data_text = StringVar()
+    data_text.set('Plans to add:')
+    lbl_text = Label(fast_adding_menu, textvariable=data_text)
+    lbl_text.pack()
+    global entry_text_plan
+    entry_text_plan = Entry(fast_adding_menu)
+    entry_text_plan.pack()
+
+    btn_plan_day = Button(fast_adding_menu, text="Add", width=11, height=3, bg="white", fg="black", command=click_plan_day_fast)
+    btn_plan_day.pack()
+
+    btn_exit = Button(fast_adding_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_fast_adding)
+    btn_exit.pack()
+    fast_adding_menu.mainloop()
+
+
 def help():
     main_menu.destroy()
     global help_menu
     help_menu = Tk()
     help_menu.geometry('400x800')
 
-    lbl_help = Label(help_menu, text="Здесь делаем вывод всего мануала")
+    lbl_help = Label(help_menu, text="Manual")
     lbl_help.pack()
+
+    file_path = dirname(__file__) + "/help_manual.txt"
+    with open(file_path, "r") as fd:
+        lines = fd.readlines()
+        manual_out = "\n".join(lines)
+
+    lbl_text = Label(help_menu, text=manual_out)
+    lbl_text.pack()
+
     btn_exit = Button(help_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_help)
     btn_exit.pack()
     help_menu.mainloop()
@@ -380,6 +535,9 @@ def main():
 
     btn_day = Button(main_menu, text="Plans for the day", width=30, height=5, bg="white", fg="black", command=day)
     btn_day.pack()
+
+    btn_hast_adding = Button(main_menu, text="Fast adding plans", width=30, height=5, bg="white", fg="black", command=fast_adding)
+    btn_hast_adding.pack()
 
     btn_month = Button(main_menu, text="Schedule", width=30, height=5, bg="white", fg="black", command=month)
     btn_month.pack()
