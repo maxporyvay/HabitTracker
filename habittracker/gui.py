@@ -458,7 +458,7 @@ def help():
     main_menu.destroy()
     global help_menu
     help_menu = Tk()
-    help_menu.geometry('400x800')
+    help_menu.geometry('1255x800')
 
     lbl_help = Label(help_menu, text="Manual")
     lbl_help.pack()
