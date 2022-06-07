@@ -1,4 +1,4 @@
-from tkinter import Tk, Label, Button, StringVar, Entry, IntVar, Radiobutton, Checkbutton, Frame, X, END, ttk, Toplevel
+from tkinter import ttk, Tk, Label, Button, Entry, Radiobutton, Checkbutton, Frame, Toplevel, StringVar, IntVar, X, END
 from calendar import monthrange
 from os import listdir
 from datetime import date
@@ -213,7 +213,6 @@ def day():
 flag_tr0_plans1 = 0
 
 def info_tr(s):
-    # разобраться с именем файла
     monthwindow = MonthWindow(dirname(__file__) + '/data/tracker/' + s + '.txt')
     monthwindow.mainloop()
 
@@ -242,7 +241,6 @@ def info_plans(s):
 
 
 def click_plans():
-    #text_choise_mon = mon_plans.get()
     text_choise_mon = combo_files.get()
     if flag_tr0_plans1 == 0:
         info_tr(text_choise_mon)
@@ -261,30 +259,13 @@ def view_info():
     if '.DS_Store' in files_indir:
         files_indir.remove('.DS_Store')
     files = []
-    #files.append("Доступные месяцы:")
     for i in files_indir:
         files.append(i[0:-4])
-    #all_files = "\n".join(files)
-
-    #lbl_files = Label(info_plans_menu, text=all_files)
-    #lbl_files.pack()
-
-    #dir_path = dirname(__file__) + '/data/plans'
     
     global combo_files
     combo_files = ttk.Combobox(master=info_plans_menu, values=files, text='Available months:')
     combo_files.current(0)
     combo_files.pack()
-
-    #data_mon = StringVar()
-    #data_mon.set('Введите выбранный месяц, в формате, как он записан выше')
-
-    #lbl_mon = Label(info_plans_menu, textvariable=data_mon)
-    #lbl_mon.pack()
-
-    #global mon_plans
-    #mon_plans = Entry(info_plans_menu)
-    #mon_plans.pack()
 
     btn_choise = Button(info_plans_menu, text="Choose", width=11, height=3, bg="white", fg="black", command=click_plans)
     btn_choise.pack()
@@ -313,26 +294,6 @@ def saved_monthes():
     saved_monthes_menu = Tk()
     saved_monthes_menu.geometry('400x800')
 
-    # dirrectory = dirname(__file__) + '/data/plans'
-    # files_indir = listdir(dirrectory)
-    # files_indir.remove('.DS_Store')
-    # files = []
-    # files.append("Available months:")
-    # for i in files_indir:
-    #     files.append(i[0:-4])
-    # all_files = "\n".join(files)
-
-    # lbl_files = Label(saved_monthes_menu, text=all_files)
-    # lbl_files.pack()
-
-    # lbl_choise = Label(saved_monthes_menu, text="Нажмите на один из вариантов (даже если он выбран)")
-    # lbl_choise.pack()
-    # data = StringVar()
-    # data.set(0)
-    # rad_tr = Radiobutton(saved_monthes_menu, text = 'Трекер привычек', value = 0, variable = data, command = view_info_tr)
-    # rad_plans = Radiobutton(saved_monthes_menu, text = 'Планы', value = 1, variable = data, command = view_info_plans)
-    # rad_tr.pack()
-    # rad_plans.pack()
     btn_tr = Button(saved_monthes_menu, text = 'Habit tracker', command=view_info_tr)
     btn_plans = Button(saved_monthes_menu, text = 'Plans', command=view_info_plans)
     btn_tr.pack()
@@ -344,34 +305,31 @@ def saved_monthes():
     saved_monthes_menu.mainloop()
 
 
-#def click_year():
-#    global text_year 
-#    text_year = entry_year.get() 
-
-
 def click_mon():
-    text_year = entry_year.get() 
-    text_mon = int(entry_mon.get())
+    text_year = entry_year.get()
+    text_mon = combo_mon.get()
     file_path = dirname(__file__) + '/data/tracker/'
-    file_path += d_mon[text_mon]
+    file_path += text_mon
     file_path += text_year
     file_path += ".txt"
-    with open(file_path, "w") as fd:
-        fd.write(f'{d_mon[text_mon]} {text_year}\n')
-        fd.write("0\n")
-        fd.write(str(monthrange(int(text_year), text_mon)[1]))
-        fd.write("\n")
-
-    plan_path = dirname(__file__) + '/data/plans/'
-    plan_path += d_mon[text_mon]
-    plan_path += text_year
-    plan_path += ".txt"
-    if exists(plan_path) == False:
-        with open(plan_path, "w") as fd:
-            fd.write(f'{d_mon[m]} {y}\n')
+    if exists(file_path) == False:
+        with open(file_path, "w") as fd:
+            fd.write(f'{text_mon} {text_year}\n')
             fd.write("0\n")
-            fd.write(str(monthrange(int(y), m)[1]))
+            fd.write(str(monthrange(int(text_year), [key for key in d_mon if d_mon[key] == text_mon][0])[1]))
             fd.write("\n")
+
+        plan_path = dirname(__file__) + '/data/plans/'
+        plan_path += text_mon
+        plan_path += text_year
+        plan_path += ".txt"
+        with open(plan_path, "w") as fd:
+            fd.write(f'{text_mon} {text_year}\n')
+            fd.write("0\n")
+            fd.write(str(monthrange(int(text_year), [key for key in d_mon if d_mon[key] == text_mon][0])[1]))
+            fd.write("\n")
+    else:
+        pass #  сделать вывод пользователю
 
 
 def add_month():
@@ -381,7 +339,7 @@ def add_month():
     add_month_menu.geometry('400x800')
 
     data_year = StringVar()
-    data_year.set('Enter the year of the month to be added')
+    data_year.set('Enter the year of the month to be added:')
 
     lbl_year = Label(add_month_menu, textvariable=data_year)
     lbl_year.pack()
@@ -390,18 +348,12 @@ def add_month():
     entry_year = Entry(add_month_menu)
     entry_year.pack()
 
-    #btn_year = Button(add_month_menu, text="добавить год", width=11, height=3, bg="white", fg="black", command=click_year)
-    #btn_year.pack()
-
-    data_mon = StringVar()
-    data_mon.set('Enter the number of the month to be added')
-
-    lbl_mon = Label(add_month_menu, textvariable=data_mon)
+    lbl_mon = Label(add_month_menu, text='Choose the month to be added:')
     lbl_mon.pack()
 
-    global entry_mon
-    entry_mon = Entry(add_month_menu)
-    entry_mon.pack()
+    global combo_mon
+    combo_mon = ttk.Combobox(add_month_menu, values=list(d_mon.values()))
+    combo_mon.pack()
 
     btn_mon = Button(add_month_menu, text="Add month", width=11, height=3, bg="white", fg="black", command=click_mon)
     btn_mon.pack()
