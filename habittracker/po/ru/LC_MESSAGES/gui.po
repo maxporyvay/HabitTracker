@@ -100,7 +100,7 @@ msgstr "Задача для добавления:"
 
 #: habittracker/gui.py:466
 msgid "Manual"
-msgstr "Мануал"
+msgstr "Инструкция"
 
 #: habittracker/gui.py:491
 msgid "Plans for the day"
@@ -108,7 +108,7 @@ msgstr "Планы на день"
 
 #: habittracker/gui.py:494
 msgid "Fast adding plans"
-msgstr "Быстрое добаление задач"
+msgstr "Быстрое добавление задач"
 
 #: habittracker/gui.py:497
 msgid "Schedule"
@@ -116,7 +116,7 @@ msgstr "Расписание"
 
 #: habittracker/gui.py:500
 msgid "Help, click for information"
-msgstr "Нажмите для получение информации"
+msgstr "Инструкция"
 
 #: habittracker/gui.py:503
 msgid "Exit"
@@ -140,11 +140,11 @@ msgstr "Сохранить"
 
 #: habittracker/gui.py:702
 msgid "Day with most habits achieved:"
-msgstr "День с наибольшим числом ввыполненных привычек:"
+msgstr "День с наибольшим числом выполненных привычек:"
 
 #: habittracker/gui.py:704
 msgid "Day with least habits achieved:"
-msgstr "День с наименьшим числом ввыполненных привычек:"
+msgstr "День с наименьшим числом выполненных привычек:"
 
 #: habittracker/gui.py:706
 msgid "Habit achieved most frequent:"
