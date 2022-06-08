@@ -273,9 +273,9 @@ def info_plans(s):
 def click_plans():
     """Функция получает выбранный месяц, и в зависимости от более раннего выбора: трекер или планы, запускает функции соответствующие выбору."""
     text_choise_mon = combo_files.get()
-    if flag_tr0_plans1 == 0:
+    if text_choise_mon and flag_tr0_plans1 == 0:
         info_tr(text_choise_mon)
-    elif flag_tr0_plans1 == 1:
+    elif text_choise_mon and flag_tr0_plans1 == 1:
         info_plans(text_choise_mon)
 
 
@@ -296,7 +296,6 @@ def view_info():
 
     global combo_files
     combo_files = ttk.Combobox(master=info_plans_menu, values=files, text='Available months:')
-    combo_files.current(0)
     combo_files.pack()
 
     btn_choise = Button(info_plans_menu, text=_("Choose"), width=11, height=3, bg="white", fg="black", command=click_plans)
