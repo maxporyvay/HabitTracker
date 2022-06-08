@@ -5,8 +5,11 @@ from datetime import date
 from os.path import exists, dirname
 from functools import partial
 from habittracker.calc_stats import calc_most_popular, calc_least_popular, calc_ticks_numbers
+from gettext import translation
 
 d_mon = {1:'January', 2:'February', 3:'March', 4:'April', 5:'May', 6:'June', 7:'July', 8:'August', 9:'September', 10:'October', 11:'November', 12:'December'}
+translation = translation('gui', 'po', fallback=True)
+_, ngettext= translation.gettext, translation.ngettext
 
 def to_menu_day():
     day_menu.destroy()
@@ -110,7 +113,7 @@ def add_plan_day():
     add_plan_day_menu.geometry('400x800')
 
     data_plan_day = StringVar()
-    data_plan_day.set('Enter new plans for today')
+    data_plan_day.set(_('Enter new plans for today'))
 
     lbl_plan_day = Label(add_plan_day_menu, textvariable=data_plan_day)
     lbl_plan_day.pack()
@@ -119,10 +122,10 @@ def add_plan_day():
     entry_plan_day = Entry(add_plan_day_menu)
     entry_plan_day.pack()
 
-    btn_plan_day = Button(add_plan_day_menu, text="Add", width=11, height=3, bg="white", fg="black", command=click_plan_day)
+    btn_plan_day = Button(add_plan_day_menu, text=_("Add"), width=11, height=3, bg="white", fg="black", command=click_plan_day)
     btn_plan_day.pack()
 
-    btn_exit = Button(add_plan_day_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_add_plan_day)
+    btn_exit = Button(add_plan_day_menu, text=_("To menu"),  width=30, height=5, bg="salmon1", fg="black", command=to_menu_add_plan_day)
     btn_exit.pack()
     add_plan_day_menu.mainloop()
 
@@ -169,7 +172,7 @@ def show_plan(*args):
     file_name = d_mon[mon] + str(year) + ".txt"
     file_full_name = dir_path + file_name
     if exists(file_full_name) == False:
-        lbl_out = Label(show_plan_menu, text="Tasks are not scheduled")
+        lbl_out = Label(show_plan_menu, text=_("Tasks are not scheduled"))
         lbl_out.pack()
     else:
         plans = []
@@ -185,12 +188,12 @@ def show_plan(*args):
                     flag = 1
                     plans.append(i)
             if len(plans) == 0:
-                plans.append("Tasks are not scheduled")
+                plans.append(_("Tasks are not scheduled"))
             all_info = "".join(plans)
             lbl_out = Label(show_plan_menu, text=all_info)
             lbl_out.pack()
 
-    btn_exit = Button(show_plan_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_show)
+    btn_exit = Button(show_plan_menu, text=_("To menu"),  width=30, height=5, bg="salmon1", fg="black", command=to_menu_show)
     btn_exit.pack()
     show_plan_menu.mainloop()
 
@@ -202,11 +205,11 @@ def day():
     today = date.today()
     lbl_date = Label(day_menu, text=f'{today.day}.{today.month}.{today.year}')
     lbl_date.pack()
-    btn_show_info = Button(day_menu, text="Show plan in this day", width=30, height=5, bg="white", fg="black", command=show_day)
+    btn_show_info = Button(day_menu, text=_("Show plan in this day"), width=30, height=5, bg="white", fg="black", command=show_day)
     btn_show_info.pack()
-    btn_add_info = Button(day_menu, text="Add plan in this day", width=30, height=5, bg="white", fg="black", command=add_plan_day)
+    btn_add_info = Button(day_menu, text=_("Add plan in this day"), width=30, height=5, bg="white", fg="black", command=add_plan_day)
     btn_add_info.pack()
-    btn_exit = Button(day_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_day)
+    btn_exit = Button(day_menu, text=_("To menu"),  width=30, height=5, bg="salmon1", fg="black", command=to_menu_day)
     btn_exit.pack()
     day_menu.mainloop()
 
@@ -226,16 +229,16 @@ def info_plans(s):
     show_plans_menu.geometry('400x800')
 
     data_day = StringVar()
-    data_day.set("Enter day")
+    data_day.set(_("Enter day"))
     lbl_mon = Label(show_plans_menu, textvariable=data_day)
     lbl_mon.pack()
     global day_plans
     day_plans = Entry(show_plans_menu)
     day_plans.pack()
-    btn_choise = Button(show_plans_menu, text="Enter", width=11, height=3, bg="white", fg="black", command=click_show_plans)
+    btn_choise = Button(show_plans_menu, text=_("Enter"), width=11, height=3, bg="white", fg="black", command=click_show_plans)
     btn_choise.pack()
 
-    btn_exit = Button(show_plans_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_show_plans)
+    btn_exit = Button(show_plans_menu, text=_("To menu"),  width=30, height=5, bg="salmon1", fg="black", command=to_menu_show_plans)
     btn_exit.pack()
     show_plans_menu.mainloop()
 
@@ -267,10 +270,10 @@ def view_info():
     combo_files.current(0)
     combo_files.pack()
 
-    btn_choise = Button(info_plans_menu, text="Choose", width=11, height=3, bg="white", fg="black", command=click_plans)
+    btn_choise = Button(info_plans_menu, text=_("Choose"), width=11, height=3, bg="white", fg="black", command=click_plans)
     btn_choise.pack()
 
-    btn_exit = Button(info_plans_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_info)
+    btn_exit = Button(info_plans_menu, text=_("To menu"),  width=30, height=5, bg="salmon1", fg="black", command=to_menu_info)
     btn_exit.pack()
 
     info_plans_menu.mainloop()
@@ -294,12 +297,12 @@ def saved_monthes():
     saved_monthes_menu = Tk()
     saved_monthes_menu.geometry('400x800')
 
-    btn_tr = Button(saved_monthes_menu, text = 'Habit tracker', command=view_info_tr)
-    btn_plans = Button(saved_monthes_menu, text = 'Plans', command=view_info_plans)
+    btn_tr = Button(saved_monthes_menu, text = _('Habit tracker'), command=view_info_tr)
+    btn_plans = Button(saved_monthes_menu, text = _('Plans'), command=view_info_plans)
     btn_tr.pack()
     btn_plans.pack()
 
-    btn_exit = Button(saved_monthes_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_saved_monthes)
+    btn_exit = Button(saved_monthes_menu, text=_("To menu"),  width=30, height=5, bg="salmon1", fg="black", command=to_menu_saved_monthes)
     btn_exit.pack()
 
     saved_monthes_menu.mainloop()
@@ -339,7 +342,7 @@ def add_month():
     add_month_menu.geometry('400x800')
 
     data_year = StringVar()
-    data_year.set('Enter the year of the month to be added:')
+    data_year.set(_('Enter the year of the month to be added:'))
 
     lbl_year = Label(add_month_menu, textvariable=data_year)
     lbl_year.pack()
@@ -348,17 +351,17 @@ def add_month():
     entry_year = Entry(add_month_menu)
     entry_year.pack()
 
-    lbl_mon = Label(add_month_menu, text='Choose the month to be added:')
+    lbl_mon = Label(add_month_menu, text=_('Choose the month to be added:'))
     lbl_mon.pack()
 
     global combo_mon
     combo_mon = ttk.Combobox(add_month_menu, values=list(d_mon.values()))
     combo_mon.pack()
 
-    btn_mon = Button(add_month_menu, text="Add month", width=11, height=3, bg="white", fg="black", command=click_mon)
+    btn_mon = Button(add_month_menu, text=_("Add month"), width=11, height=3, bg="white", fg="black", command=click_mon)
     btn_mon.pack()
 
-    btn_exit = Button(add_month_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_add_month)
+    btn_exit = Button(add_month_menu, text=_("To menu"),  width=30, height=5, bg="salmon1", fg="black", command=to_menu_add_month)
     btn_exit.pack()
 
     add_month_menu.mainloop()
@@ -370,13 +373,13 @@ def month():
     month_menu = Tk()
     month_menu.geometry('400x800')
 
-    btn_saved_monthes = Button(month_menu, text="Saved months",  width=30, height=5, bg="white", fg="black", command=saved_monthes)
+    btn_saved_monthes = Button(month_menu, text=_("Saved months"),  width=30, height=5, bg="white", fg="black", command=saved_monthes)
     btn_saved_monthes.pack()
 
-    btn_add_month = Button(month_menu, text="Add month",  width=30, height=5, bg="white", fg="black", command=add_month)
+    btn_add_month = Button(month_menu, text=_("Add month"),  width=30, height=5, bg="white", fg="black", command=add_month)
     btn_add_month.pack()
 
-    btn_exit = Button(month_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_month)
+    btn_exit = Button(month_menu, text=_("To menu"),  width=30, height=5, bg="salmon1", fg="black", command=to_menu_month)
     btn_exit.pack()
 
     month_menu.mainloop()
@@ -415,7 +418,7 @@ def fast_adding():
     fast_adding_menu.geometry('400x800')
 
     data_day = StringVar()
-    data_day.set('Day:')
+    data_day.set(_('Day:'))
     lbl_day = Label(fast_adding_menu, textvariable=data_day)
     lbl_day.pack()
     global entry_day_plan
@@ -423,7 +426,7 @@ def fast_adding():
     entry_day_plan.pack()
 
     data_mon = StringVar()
-    data_mon.set('Month number:')
+    data_mon.set(_('Month number:'))
     lbl_mon = Label(fast_adding_menu, textvariable=data_mon)
     lbl_mon.pack()
     global entry_mon_plan
@@ -431,7 +434,7 @@ def fast_adding():
     entry_mon_plan.pack()
 
     data_year = StringVar()
-    data_year.set('Year:')
+    data_year.set(_('Year:'))
     lbl_year = Label(fast_adding_menu, textvariable=data_year)
     lbl_year.pack()
     global entry_year_plan
@@ -439,17 +442,17 @@ def fast_adding():
     entry_year_plan.pack()
 
     data_text = StringVar()
-    data_text.set('Plans to add:')
+    data_text.set(_('Plans to add:'))
     lbl_text = Label(fast_adding_menu, textvariable=data_text)
     lbl_text.pack()
     global entry_text_plan
     entry_text_plan = Entry(fast_adding_menu)
     entry_text_plan.pack()
 
-    btn_plan_day = Button(fast_adding_menu, text="Add", width=11, height=3, bg="white", fg="black", command=click_plan_day_fast)
+    btn_plan_day = Button(fast_adding_menu, text=_("Add"), width=11, height=3, bg="white", fg="black", command=click_plan_day_fast)
     btn_plan_day.pack()
 
-    btn_exit = Button(fast_adding_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_fast_adding)
+    btn_exit = Button(fast_adding_menu, text=_("To menu"),  width=30, height=5, bg="salmon1", fg="black", command=to_menu_fast_adding)
     btn_exit.pack()
     fast_adding_menu.mainloop()
 
@@ -458,9 +461,9 @@ def help():
     main_menu.destroy()
     global help_menu
     help_menu = Tk()
-    help_menu.geometry('400x800')
+    help_menu.geometry('1255x800')
 
-    lbl_help = Label(help_menu, text="Manual")
+    lbl_help = Label(help_menu, text=_("Manual"))
     lbl_help.pack()
 
     file_path = dirname(__file__) + "/help_manual.txt"
@@ -471,7 +474,7 @@ def help():
     lbl_text = Label(help_menu, text=manual_out)
     lbl_text.pack()
 
-    btn_exit = Button(help_menu, text="To menu",  width=30, height=5, bg="salmon1", fg="black", command=to_menu_help)
+    btn_exit = Button(help_menu, text=_("To menu"),  width=30, height=5, bg="salmon1", fg="black", command=to_menu_help)
     btn_exit.pack()
     help_menu.mainloop()
 
@@ -485,19 +488,19 @@ def main():
     main_menu = Tk()
     main_menu.geometry('400x800')
 
-    btn_day = Button(main_menu, text="Plans for the day", width=30, height=5, bg="white", fg="black", command=day)
+    btn_day = Button(main_menu, text=_("Plans for the day"), width=30, height=5, bg="white", fg="black", command=day)
     btn_day.pack()
 
-    btn_hast_adding = Button(main_menu, text="Fast adding plans", width=30, height=5, bg="white", fg="black", command=fast_adding)
+    btn_hast_adding = Button(main_menu, text=_("Fast adding plans"), width=30, height=5, bg="white", fg="black", command=fast_adding)
     btn_hast_adding.pack()
 
-    btn_month = Button(main_menu, text="Schedule", width=30, height=5, bg="white", fg="black", command=month)
+    btn_month = Button(main_menu, text=_("Schedule"), width=30, height=5, bg="white", fg="black", command=month)
     btn_month.pack()
 
-    btn_help = Button(main_menu, text="Help, click for information",  width=30, height=5, bg="white", fg="black", command=help)
+    btn_help = Button(main_menu, text=_("Help, click for information"),  width=30, height=5, bg="white", fg="black", command=help)
     btn_help.pack()
 
-    btn_exit = Button(main_menu, text="Exit",  width=7, height=4, bg="salmon1", fg="black", command=exit)
+    btn_exit = Button(main_menu, text=_("Exit"),  width=7, height=4, bg="salmon1", fg="black", command=exit)
     btn_exit.pack()
 
     main_menu.mainloop()
@@ -553,15 +556,15 @@ class MonthWindow(Tk):
         style.configure('TEntry', foreground='black')
         self.ent_add = PlaceholderEntry(master=self.menu_frame, placeholder='Habit name to add')
         self.ent_add.grid(row=0, column=0, sticky='w')
-        self.btn_add = Button(master=self.menu_frame, text='Add new habit', height=1, command=self.addHabit)
+        self.btn_add = Button(master=self.menu_frame, text=_('Add new habit'), height=1, command=self.addHabit)
         self.btn_add.grid(row=0, column=1, sticky='w')
         self.ent_del = PlaceholderEntry(master=self.menu_frame, placeholder='Habit name to delete')
         self.ent_del.grid(row=0, column=2, sticky='w')
-        self.btn_del = Button(master=self.menu_frame, text='Delete habit', height=1, command=self.delHabit)
+        self.btn_del = Button(master=self.menu_frame, text=_('Delete habit'), height=1, command=self.delHabit)
         self.btn_del.grid(row=0, column=3, sticky='w')
-        self.btn_stats = Button(master=self.menu_frame, text='Show additional statistics', height=1, command=self.showStats)
+        self.btn_stats = Button(master=self.menu_frame, text=_('Show additional statistics'), height=1, command=self.showStats)
         self.btn_stats.grid(row=0, column=4, sticky='w')
-        self.btn_save = Button(master=self.menu_frame, text='Save', height=1, command=self.saveData)
+        self.btn_save = Button(master=self.menu_frame, text=_('Save'), height=1, command=self.saveData)
         self.btn_save.grid(row=0, column=5, sticky='w')
 
         self.tracker_frame = Frame(master=self)
@@ -696,13 +699,13 @@ class StatsWindow(Toplevel):
 
         self.popular_frame = Frame(master=self)
         self.popular_frame.pack(fill=X)
-        self.lbl_most_popular_day = Label(master=self.popular_frame, text='Day with most habits achieved:', height=1)
+        self.lbl_most_popular_day = Label(master=self.popular_frame, text=_('Day with most habits achieved:'), height=1)
         self.lbl_most_popular_day.grid(row=0, column=0, sticky='e')
-        self.lbl_least_popular_day = Label(master=self.popular_frame, text='Day with least habits achieved:', height=1)
+        self.lbl_least_popular_day = Label(master=self.popular_frame, text=_('Day with least habits achieved:'), height=1)
         self.lbl_least_popular_day.grid(row=1, column=0, sticky='e')
-        self.lbl_most_popular_habit = Label(master=self.popular_frame, text='Habit achieved most frequent:', height=1)
+        self.lbl_most_popular_habit = Label(master=self.popular_frame, text=_('Habit achieved most frequent:'), height=1)
         self.lbl_most_popular_habit.grid(row=2, column=0, sticky='e')
-        self.lbl_least_popular_habit = Label(master=self.popular_frame, text='Habit achieved least frequent:', height=1)
+        self.lbl_least_popular_habit = Label(master=self.popular_frame, text=_('Habit achieved least frequent:'), height=1)
         self.lbl_least_popular_habit.grid(row=3, column=0, sticky='e')
 
     def stats(self, habits_names, ticks_matrix):
