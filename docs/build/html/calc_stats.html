@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Module “calc_stats” &#8212; HabitTracker 0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="App screenshots" href="screenshots.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-calc_stats">
+<span id="module-calc-stats"></span><h1>Module “calc_stats”<a class="headerlink" href="#module-calc_stats" title="Permalink to this headline">¶</a></h1>
+<p>Модуль предоставляет функции, необходимые для подсчета статистики.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="calc_stats.calc_least_popular">
+<span class="sig-prename descclassname"><span class="pre">calc_stats.</span></span><span class="sig-name descname"><span class="pre">calc_least_popular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ticks_matrix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/calc_stats.html#calc_least_popular"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#calc_stats.calc_least_popular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Считает минимальные значения по строкам и столбцам матрицы отметок о выполненных делах.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ticks_matrix</strong> (<em>list</em>) – матрица (список списков) M x N, M - количество дел, N - количество дней</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>кортеж из двух списков (индексы дел которые были сделаны в наименьшее число дней, и индексы дней, в которые было сделано наименьшее количество дел соответственно), если входной массив непуст (иначе кортеж (-1, -1))</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="calc_stats.calc_most_popular">
+<span class="sig-prename descclassname"><span class="pre">calc_stats.</span></span><span class="sig-name descname"><span class="pre">calc_most_popular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ticks_matrix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/calc_stats.html#calc_most_popular"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#calc_stats.calc_most_popular" title="Permalink to this definition">¶</a></dt>
+<dd><p>Считает максимальные значения по строкам и столбцам матрицы отметок о выполненных делах.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ticks_matrix</strong> (<em>list</em>) – матрица (список списков) M x N, M - количество дел, N - количество дней</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>кортеж из двух списков (индексы дел которые были сделаны в наибольшее число дней, и индексы дней, в которые было сделано наибольшее количество дел соответственно), если входной массив непуст (иначе кортеж (-1, -1))</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="calc_stats.calc_ticks_numbers">
+<span class="sig-prename descclassname"><span class="pre">calc_stats.</span></span><span class="sig-name descname"><span class="pre">calc_ticks_numbers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ticks_matrix</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/calc_stats.html#calc_ticks_numbers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#calc_stats.calc_ticks_numbers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Считает суммы по строкам и столбцам матрицы отметок о выполненных делах.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>ticks_matrix</strong> (<em>list</em>) – матрица (список списков) M x N, M - количество дел, N - количество дней</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>кортеж из двух списков (суммарные количества сделанных дел по каждому из дел за весь период времени и суммарные количества сделанных дел в каждый день соответственно), если входной массив непуст (иначе кортеж (-1, -1))</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>tuple</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">HabitTracker</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="screenshots.html">App screenshots</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Module “calc_stats”</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="screenshots.html" title="previous chapter">App screenshots</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2022, Maxim Poryvay, Daria Skvortsova.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 4.5.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/calc_stats.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

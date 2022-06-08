@@ -1,0 +1,4 @@
+include .flake8
+recursive-include test *
+recursive-include docs *
+recursive-include habittracker/data *
