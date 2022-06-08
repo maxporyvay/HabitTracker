@@ -1,4 +1,6 @@
-from tkinter import ttk, Tk, Label, Button, Entry, Radiobutton, Checkbutton, Frame, Toplevel, StringVar, IntVar, X, END
+"""Модуль gui реализует всю frontend часть приложения."""
+
+from tkinter import ttk, Tk, Label, Button, Entry, Checkbutton, Frame, Toplevel, StringVar, X, END
 from calendar import monthrange
 from os import listdir
 from datetime import date
@@ -7,61 +9,73 @@ from functools import partial
 from habittracker.calc_stats import calc_most_popular, calc_least_popular, calc_ticks_numbers
 from gettext import translation
 
-d_mon = {1:'January', 2:'February', 3:'March', 4:'April', 5:'May', 6:'June', 7:'July', 8:'August', 9:'September', 10:'October', 11:'November', 12:'December'}
+d_mon = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'}
 translation = translation('gui', 'habittracker/po', fallback=True)
-_, ngettext= translation.gettext, translation.ngettext
+_, ngettext = translation.gettext, translation.ngettext
+
 
 def to_menu_day():
+    """Функция закрывает меню дня и переходит в основное меню."""
     day_menu.destroy()
     main()
 
 
 def to_menu_help():
+    """Функция закрывает меню мануала и переходит в основное меню."""
     help_menu.destroy()
     main()
 
 
 def to_menu_month():
+    """Функция закрывает меню расписания и переходит в основное меню."""
     month_menu.destroy()
     main()
 
 
 def to_menu_saved_monthes():
+    """Функция закрывает меню сохраненных месяцев и переходит в основное меню."""
     saved_monthes_menu.destroy()
     main()
 
 
 def to_menu_add_month():
+    """Функция закрывает меню добавления месяца и переходит в основное меню."""
     add_month_menu.destroy()
     main()
 
 
 def to_menu_info():
+    """Функция закрывает меню сбора данных для вывода задач и переходит в основное меню."""
     info_plans_menu.destroy()
     main()
 
 
 def to_menu_show():
+    """Функция закрывает меню с выводом задач на сегодня и переходит в основное меню."""
     show_plan_menu.destroy()
     main()
 
 
 def to_menu_show_plans():
+    """Функция закрывает меню с выводом задач и переходит в основное меню."""
     show_plans_menu.destroy()
     main()
 
 
 def to_menu_add_plan_day():
+    """Функция закрывает меню с добавлением задач на сегодня и переходит в основное меню."""
     add_plan_day_menu.destroy()
     main()
 
 
 def to_menu_fast_adding():
+    """Функция закрывает меню с добавлением задач и переходит в основное меню."""
     fast_adding_menu.destroy()
     main()
 
 
 def add_text_in_file(file_path, text_to_add, d):
+    """Функция в файл с путем file_path добавляет в день d text_to_add."""
     with open(file_path, "r+") as fd:
         lines = fd.readlines()
         flag_day_was = 0
@@ -80,6 +94,7 @@ def add_text_in_file(file_path, text_to_add, d):
 
 
 def click_plan_day():
+    """Функция получает записанный текст, формирует путь к файлу текущего месяца и передает этот файл, полученный текст и сегодняшнее число в add_text_in_file."""
     text_to_add = entry_plan_day.get()
     today = date.today()
     d = today.day
@@ -88,7 +103,7 @@ def click_plan_day():
     dir_path = dirname(__file__) + '/data/tracker/'
     file_name = d_mon[m] + str(y) + ".txt"
     file_path = dir_path + file_name
-    if exists(file_path) == False:
+    if not exists(file_path):
         with open(file_path, "w") as fd:
             fd.write(f'{d_mon[m]} {y}\n')
             fd.write("0\n")
@@ -97,7 +112,7 @@ def click_plan_day():
     dir_path = dirname(__file__) + '/data/plans/'
     file_name = d_mon[m] + str(y) + ".txt"
     file_path = dir_path + file_name
-    if exists(file_path) == False:
+    if not exists(file_path):
         with open(file_path, "w") as fd:
             fd.write(f'{d_mon[m]} {y}\n')
             fd.write("0\n")
@@ -107,6 +122,7 @@ def click_plan_day():
 
 
 def add_plan_day():
+    """Функция реализует функционирование и внешний вид меню для добавления планов на сегодня, где получает нужную задачу и передает ее дальше для добавления."""
     day_menu.destroy()
     global add_plan_day_menu
     add_plan_day_menu = Tk()
@@ -131,13 +147,16 @@ def add_plan_day():
 
 
 def show_day():
+    """Функция переходит из меню дня в меню демострации планов на сегодня."""
     day_menu.destroy()
     global show_plan_menu
     show_plan_menu = Tk()
     show_plan_menu.geometry('400x800')
     show_plan()
 
+
 def click_show_plans():
+    """Функция получает нужную дату и передает ее в функцию show_plan."""
     d = day_plans.get()
     s_month = ""
     s_year = ""
@@ -156,7 +175,9 @@ def click_show_plans():
     show_plan_menu.geometry('400x800')
     show_plan(d, m, y)
 
+
 def show_plan(*args):
+    """Функция выводит на экран задачи, поставленные на конкретный день. Если аргументов у функции нет то берется сегодняшняя дата, если есть, то они хранят нужную дату."""
     if len(args) == 0:
         today = date.today()
         day = today.day
@@ -171,7 +192,7 @@ def show_plan(*args):
     dir_path = dirname(__file__) + '/data/plans/'
     file_name = d_mon[mon] + str(year) + ".txt"
     file_full_name = dir_path + file_name
-    if exists(file_full_name) == False:
+    if not exists(file_full_name):
         lbl_out = Label(show_plan_menu, text=_("Tasks are not scheduled"))
         lbl_out.pack()
     else:
@@ -197,7 +218,9 @@ def show_plan(*args):
     btn_exit.pack()
     show_plan_menu.mainloop()
 
+
 def day():
+    """Функция реализует функционирование и внешний вид меню для получения и добавления информации по сегодняшнему дню."""
     main_menu.destroy()
     global day_menu
     day_menu = Tk()
@@ -213,14 +236,18 @@ def day():
     btn_exit.pack()
     day_menu.mainloop()
 
+
 flag_tr0_plans1 = 0
 
+
 def info_tr(s):
+    """Функция реализует запуск окна с трекером и запуск его функционала."""
     monthwindow = MonthWindow(dirname(__file__) + '/data/tracker/' + s + '.txt')
     monthwindow.mainloop()
 
 
 def info_plans(s):
+    """Функция реализует ввод даты интересующего дня и передачу даты в дальнейшую обработку."""
     global month_info
     month_info = s
     info_plans_menu.destroy()
@@ -244,6 +271,7 @@ def info_plans(s):
 
 
 def click_plans():
+    """Функция получает выбранный месяц, и в зависимости от более раннего выбора: трекер или планы, запускает функции соответствующие выбору."""
     text_choise_mon = combo_files.get()
     if flag_tr0_plans1 == 0:
         info_tr(text_choise_mon)
@@ -252,6 +280,7 @@ def click_plans():
 
 
 def view_info():
+    """Функция дает выбрать нужный месяц для просмотра информации о трекере или планах(на момент работы функции выбор между ними сделан и хранится в flag_tr0_plans1)."""
     saved_monthes_menu.destroy()
     global info_plans_menu
     info_plans_menu = Tk()
@@ -264,7 +293,7 @@ def view_info():
     files = []
     for i in files_indir:
         files.append(i[0:-4])
-    
+
     global combo_files
     combo_files = ttk.Combobox(master=info_plans_menu, values=files, text='Available months:')
     combo_files.current(0)
@@ -280,25 +309,28 @@ def view_info():
 
 
 def view_info_plans():
-   global flag_tr0_plans1 
-   flag_tr0_plans1 = 1
-   view_info()
+    """Функция меняет флаг, перенаправляя функцию view_info на планы и запускает view_info."""
+    global flag_tr0_plans1
+    flag_tr0_plans1 = 1
+    view_info()
 
 
 def view_info_tr():
-   global flag_tr0_plans1 
-   flag_tr0_plans1 = 0
-   view_info()
+    """Функция меняет флаг, перенаправляя функцию view_info на трекер и запускает view_info."""
+    global flag_tr0_plans1
+    flag_tr0_plans1 = 0
+    view_info()
 
 
 def saved_monthes():
+    """Функция реализует функционирование и внешний вид меню с выбором нужной информации: трекер или планы."""
     month_menu.destroy()
     global saved_monthes_menu
     saved_monthes_menu = Tk()
     saved_monthes_menu.geometry('400x800')
 
-    btn_tr = Button(saved_monthes_menu, text = _('Habit tracker'), command=view_info_tr)
-    btn_plans = Button(saved_monthes_menu, text = _('Plans'), command=view_info_plans)
+    btn_tr = Button(saved_monthes_menu, text=_('Habit tracker'), command=view_info_tr)
+    btn_plans = Button(saved_monthes_menu, text=_('Plans'), command=view_info_plans)
     btn_tr.pack()
     btn_plans.pack()
 
@@ -309,13 +341,14 @@ def saved_monthes():
 
 
 def click_mon():
+    """Функция получает выбранный год и месяц для добавления и создает соответствующий файл для дальнейшего использования."""
     text_year = entry_year.get()
     text_mon = combo_mon.get()
     file_path = dirname(__file__) + '/data/tracker/'
     file_path += text_mon
     file_path += text_year
     file_path += ".txt"
-    if exists(file_path) == False:
+    if not exists(file_path):
         with open(file_path, "w") as fd:
             fd.write(f'{text_mon} {text_year}\n')
             fd.write("0\n")
@@ -332,10 +365,11 @@ def click_mon():
             fd.write(str(monthrange(int(text_year), [key for key in d_mon if d_mon[key] == text_mon][0])[1]))
             fd.write("\n")
     else:
-        pass #  сделать вывод пользователю
+        pass  # сделать вывод пользователю
 
 
 def add_month():
+    """Функция реализует функционирование и внешний вид меню для добавления нового месяца."""
     month_menu.destroy()
     global add_month_menu
     add_month_menu = Tk()
@@ -368,6 +402,7 @@ def add_month():
 
 
 def month():
+    """Функция реализует функционирование и внешний вид меню работы с любыми днями, в котором можно посмотреть трекер и планы."""
     main_menu.destroy()
     global month_menu
     month_menu = Tk()
@@ -386,6 +421,7 @@ def month():
 
 
 def click_plan_day_fast():
+    """Функция получает нужную дату и текст для добавления, проверяет наличие файла, если его нет создает и полученную информациюю в add_text_in_file."""
     d = int(entry_day_plan.get())
     m = int(entry_mon_plan.get())
     y = int(entry_year_plan.get())
@@ -393,7 +429,7 @@ def click_plan_day_fast():
     dir_path = dirname(__file__) + '/data/tracker/'
     file_name = d_mon[m] + str(y) + ".txt"
     file_path = dir_path + file_name
-    if exists(file_path) == False:
+    if not exists(file_path):
         with open(file_path, "w") as fd:
             fd.write(f'{d_mon[m]} {y}\n')
             fd.write("0\n")
@@ -402,7 +438,7 @@ def click_plan_day_fast():
     dir_path = dirname(__file__) + '/data/plans/'
     file_name = d_mon[m] + str(y) + ".txt"
     file_path = dir_path + file_name
-    if exists(file_path) == False:
+    if not exists(file_path):
         with open(file_path, "w") as fd:
             fd.write(f'{d_mon[m]} {y}\n')
             fd.write("0\n")
@@ -412,6 +448,7 @@ def click_plan_day_fast():
 
 
 def fast_adding():
+    """Функция реализует функционирование и внешний вид меню для быстрого добавленияя планов на любой день."""
     main_menu.destroy()
     global fast_adding_menu
     fast_adding_menu = Tk()
@@ -458,6 +495,7 @@ def fast_adding():
 
 
 def help():
+    """Функция реализует функционирование и внешний вид мануала."""
     main_menu.destroy()
     global help_menu
     help_menu = Tk()
@@ -480,10 +518,12 @@ def help():
 
 
 def exit():
+    """Функция закрывает главное меню и выходит из gui."""
     main_menu.destroy()
 
 
 def main():
+    """Функция реализует функционирование и внешний вид главного меню."""
     global main_menu
     main_menu = Tk()
     main_menu.geometry('400x800')
@@ -507,6 +547,7 @@ def main():
 
 
 def parse_tracker_input_file(lines):
+    """Функция реализует разбор имени файла."""
     month_name, habits_number, days_number, *other = lines
     habits_number = int(habits_number)
     days_number = int(days_number)
@@ -524,7 +565,10 @@ def parse_tracker_input_file(lines):
 
 
 class PlaceholderEntry(ttk.Entry):
+    """Класс для работы с placeholder."""
+
     def __init__(self, placeholder, *args, **kwargs):
+        """Функция реализует работу с замещающими текстами."""
         super().__init__(*args, style='Placeholder.TEntry', **kwargs)
         self.placeholder = placeholder
 
@@ -533,18 +577,23 @@ class PlaceholderEntry(ttk.Entry):
         self.bind('<FocusOut>', self._add_placeholder)
 
     def _clear_placeholder(self, e):
+        """Функция убирает замещающий текст когда на поле происходит клик."""
         if self['style'] == 'Placeholder.TEntry':
             self.delete(0, END)
             self['style'] = 'TEntry'
 
     def _add_placeholder(self, e):
+        """Функция добавляет замещающий текст когда с поля ввода уходит курсор и текст отсутствует."""
         if not self.get():
             self.insert(0, self.placeholder)
             self['style'] = 'Placeholder.TEntry'
 
 
 class MonthWindow(Tk):
+    """Класс реализует работу трекера."""
+
     def __init__(self, filename):
+        """Функция реализует функционирование и внешний вид трекера заданного месяца и выводит сохраненную инфрмацию."""
         super().__init__()
         self.filename = filename
         self.resizable(width=False, height=False)
@@ -612,11 +661,13 @@ class MonthWindow(Tk):
             lbl.grid(row=i+1, column=self.days_number+1, sticky='e')
 
     def showStats(self):
+        """Функция открывает окно с дополнительными статистиками."""
         statswindow = StatsWindow(self)
         statswindow.grab_set()
         statswindow.stats(self.habits_names, self.ticks_matrix)
 
     def changeState(self, coords):
+        """Функция сохраняет состояние отметки после изменения любой из отметок."""
         i, j = coords
         if self.ticks_matrix[i][j]:
             self.daysumlabel_list[j]['text'] = str(int(self.daysumlabel_list[j]['text']) - 1)
@@ -627,6 +678,7 @@ class MonthWindow(Tk):
         self.ticks_matrix[i][j] = not self.ticks_matrix[i][j]
 
     def addHabit(self):
+        """Функция добавляет новую привычку."""
         possible_habit_name = self.ent_add.get()
         if possible_habit_name and possible_habit_name not in self.habits_names:
             self.habits_names.append(possible_habit_name)
@@ -648,8 +700,9 @@ class MonthWindow(Tk):
             lbl = Label(master=self.tracker_frame, text='0', height=1)
             self.habitsumlabel_list.append(lbl)
             lbl.grid(row=i, column=self.days_number+1, sticky='e')
-            
+
     def delHabit(self):
+        """Функция удаляет выбранную привычку."""
         possible_habit_name = self.ent_del.get()
         if possible_habit_name in self.habits_names:
             del_idx = self.habits_names.index(possible_habit_name)
@@ -680,6 +733,7 @@ class MonthWindow(Tk):
                 k += 1
 
     def saveData(self):
+        """Функция сохраняет новое состояние."""
         with open(self.filename, 'w') as output_file:
             print(self.month_name, file=output_file)
             print(len(self.habits_names), file=output_file)
@@ -692,7 +746,10 @@ class MonthWindow(Tk):
 
 
 class StatsWindow(Toplevel):
+    """Класс реализует вывод экстримальных статистик."""
+
     def __init__(self, parent):
+        """Функция создает заголовки для вывода статистик."""
         super().__init__(parent)
         self.resizable(width=False, height=False)
         self.title(parent.month_name + ': Additional statistics')
@@ -709,6 +766,7 @@ class StatsWindow(Toplevel):
         self.lbl_least_popular_habit.grid(row=3, column=0, sticky='e')
 
     def stats(self, habits_names, ticks_matrix):
+        """Функция выводит значение статистик."""
         most_popular_lists = calc_most_popular(ticks_matrix)
         least_popular_lists = calc_least_popular(ticks_matrix)
         self.lbl_most_popular_day_answer = Label(master=self.popular_frame, text=', '.join([str(i + 1) for i in most_popular_lists[1]]), height=1)
