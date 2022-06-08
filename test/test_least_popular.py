@@ -2,8 +2,8 @@ import unittest
 import numpy as np
 import sys
 import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)) + "/habittracker")
-from calc_stats import calc_least_popular  # noqa: E402
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+from habittracker.calc_stats import calc_least_popular  # noqa: E402
 
 
 class TestMorePopular(unittest.TestCase):

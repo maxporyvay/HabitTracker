@@ -2,8 +2,8 @@ import unittest
 import numpy as np
 import sys
 import os
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)) + "/habittracker")
-from calc_stats import calc_ticks_numbers  # noqa: E402
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
+from habittracker.calc_stats import calc_ticks_numbers  # noqa: E402
 
 
 class TestTicksNumbers(unittest.TestCase):
