@@ -13,9 +13,17 @@ This project is the habit tracker app. This means that you can make the list of 
 
 ## GUI
 
-- ![Start menu](https://drive.google.com/file/d/11zE5aJanutc4sTj79QL1Yj9FKvMnv1ce/view?usp=sharing)
-- ![Month menu](https://drive.google.com/file/d/1cW2AvwUUeMwn72S3IJkz2avbgh7HF1-_/view?usp=sharing)
-- ![Week menu](https://drive.google.com/file/d/1nNHzbF6mZkOJl5I1q7zulHB8gC_bit0V/view?usp=sharing)
+- ![Main menu](https://git.cs.msu.ru/s02180534/habittracker/-/blob/main/gui_screen/Главное%20меню.png)
+- ![Instruction](https://git.cs.msu.ru/s02180534/habittracker/-/blob/main/gui_screen/Инструкция.png)
+- ![Schedule](https://git.cs.msu.ru/s02180534/habittracker/-/blob/main/gui_screen/Расписание.png)
+- ![Today menu](https://git.cs.msu.ru/s02180534/habittracker/-/blob/main/gui_screen/Меню%20на%20сегодня.png)
+- ![Add plans for today](https://git.cs.msu.ru/s02180534/habittracker/-/blob/main/gui_screen/Добавление%20плана%20на%20сегодня.png)
+- ![Add plans for any day](https://git.cs.msu.ru/s02180534/habittracker/-/blob/main/gui_screen/Добавление%20плана%20в%20любой%20день.png)
+- ![Habit tracker](https://git.cs.msu.ru/s02180534/habittracker/-/blob/main/gui_screen/Трекер%20привычек.png)
+- ![Show statistics](https://git.cs.msu.ru/s02180534/habittracker/-/blob/main/gui_screen/Вывод%20статистики.png)
+- ![Month selection](https://git.cs.msu.ru/s02180534/habittracker/-/blob/main/gui_screen/Выбор%20месяца.png)
+- ![Task list](https://git.cs.msu.ru/s02180534/habittracker/-/blob/main/gui_screen/Список%20задач.png)
+- ![Adding a month](https://git.cs.msu.ru/s02180534/habittracker/-/blob/main/gui_screen/Добавление%20месяца.png)
 
 ## Functionality
 
