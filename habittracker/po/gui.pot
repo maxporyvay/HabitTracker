@@ -1,0 +1,154 @@
+# Translations template for PROJECT.
+# Copyright (C) 2022 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2022-06-08 13:17+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: habittracker/gui.py:116
+msgid "Enter new plans for today"
+msgstr ""
+
+#: habittracker/gui.py:125 habittracker/gui.py:452
+msgid "Add"
+msgstr ""
+
+#: habittracker/gui.py:128 habittracker/gui.py:196 habittracker/gui.py:212
+#: habittracker/gui.py:241 habittracker/gui.py:276 habittracker/gui.py:305
+#: habittracker/gui.py:364 habittracker/gui.py:382 habittracker/gui.py:455
+#: habittracker/gui.py:477
+msgid "To menu"
+msgstr ""
+
+#: habittracker/gui.py:175 habittracker/gui.py:191
+msgid "Tasks are not scheduled"
+msgstr ""
+
+#: habittracker/gui.py:208
+msgid "Show plan in this day"
+msgstr ""
+
+#: habittracker/gui.py:210
+msgid "Add plan in this day"
+msgstr ""
+
+#: habittracker/gui.py:232
+msgid "Enter day"
+msgstr ""
+
+#: habittracker/gui.py:238
+msgid "Enter"
+msgstr ""
+
+#: habittracker/gui.py:273
+msgid "Choose"
+msgstr ""
+
+#: habittracker/gui.py:300
+msgid "Habit tracker"
+msgstr ""
+
+#: habittracker/gui.py:301
+msgid "Plans"
+msgstr ""
+
+#: habittracker/gui.py:345
+msgid "Enter the year of the month to be added:"
+msgstr ""
+
+#: habittracker/gui.py:354
+msgid "Choose the month to be added:"
+msgstr ""
+
+#: habittracker/gui.py:361 habittracker/gui.py:379
+msgid "Add month"
+msgstr ""
+
+#: habittracker/gui.py:376
+msgid "Saved months"
+msgstr ""
+
+#: habittracker/gui.py:421
+msgid "Day:"
+msgstr ""
+
+#: habittracker/gui.py:429
+msgid "Month number:"
+msgstr ""
+
+#: habittracker/gui.py:437
+msgid "Year:"
+msgstr ""
+
+#: habittracker/gui.py:445
+msgid "Plans to add:"
+msgstr ""
+
+#: habittracker/gui.py:466
+msgid "Manual"
+msgstr ""
+
+#: habittracker/gui.py:491
+msgid "Plans for the day"
+msgstr ""
+
+#: habittracker/gui.py:494
+msgid "Fast adding plans"
+msgstr ""
+
+#: habittracker/gui.py:497
+msgid "Schedule"
+msgstr ""
+
+#: habittracker/gui.py:500
+msgid "Help, click for information"
+msgstr ""
+
+#: habittracker/gui.py:503
+msgid "Exit"
+msgstr ""
+
+#: habittracker/gui.py:559
+msgid "Add new habit"
+msgstr ""
+
+#: habittracker/gui.py:563
+msgid "Delete habit"
+msgstr ""
+
+#: habittracker/gui.py:565
+msgid "Show additional statistics"
+msgstr ""
+
+#: habittracker/gui.py:567
+msgid "Save"
+msgstr ""
+
+#: habittracker/gui.py:702
+msgid "Day with most habits achieved:"
+msgstr ""
+
+#: habittracker/gui.py:704
+msgid "Day with least habits achieved:"
+msgstr ""
+
+#: habittracker/gui.py:706
+msgid "Habit achieved most frequent:"
+msgstr ""
+
+#: habittracker/gui.py:708
+msgid "Habit achieved least frequent:"
+msgstr ""
+
