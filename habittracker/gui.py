@@ -8,7 +8,7 @@ from habittracker.calc_stats import calc_most_popular, calc_least_popular, calc_
 from gettext import translation
 
 d_mon = {1:'January', 2:'February', 3:'March', 4:'April', 5:'May', 6:'June', 7:'July', 8:'August', 9:'September', 10:'October', 11:'November', 12:'December'}
-translation = translation('gui', 'po', fallback=True)
+translation = translation('gui', 'habittracker/po', fallback=True)
 _, ngettext= translation.gettext, translation.ngettext
 
 def to_menu_day():
