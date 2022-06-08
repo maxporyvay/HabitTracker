@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-08 12:45+0300\n"
+"POT-Creation-Date: 2022-06-08 13:17+0300\n"
 "PO-Revision-Date: 2022-06-08 12:45+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -153,5 +153,4 @@ msgstr "Привычка, выполненная больше всего раз:
 #: habittracker/gui.py:708
 msgid "Habit achieved least frequent:"
 msgstr "Привычка, выполненная меньше всего раз:"
-
 
