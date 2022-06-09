@@ -1,4 +1,4 @@
-from tkinter import ttk, Tk, Label, Button, Entry, Radiobutton, Checkbutton, Frame, Toplevel, StringVar, IntVar, X, END
+from tkinter import ttk, Tk, Label, Button, Entry, Checkbutton, Frame, Toplevel, StringVar, X, END
 from calendar import monthrange
 from os import listdir
 from datetime import date
@@ -7,9 +7,10 @@ from functools import partial
 from habittracker.calc_stats import calc_most_popular, calc_least_popular, calc_ticks_numbers
 from gettext import translation
 
-d_mon = {1:'January', 2:'February', 3:'March', 4:'April', 5:'May', 6:'June', 7:'July', 8:'August', 9:'September', 10:'October', 11:'November', 12:'December'}
+d_mon = {1: 'January', 2: 'February', 3: 'March', 4: 'April', 5: 'May', 6: 'June', 7: 'July', 8: 'August', 9: 'September', 10: 'October', 11: 'November', 12: 'December'}
 translation = translation('gui', dirname(__file__) + '/po', fallback=True)
-_, ngettext= translation.gettext, translation.ngettext
+_, ngettext = translation.gettext, translation.ngettext
+
 
 def to_menu_day():
     day_menu.destroy()
@@ -93,7 +94,7 @@ def click_plan_day():
     dir_path = dirname(__file__) + '/data/tracker/'
     file_name = d_mon[m] + str(y) + ".txt"
     file_path = dir_path + file_name
-    if exists(file_path) == False:
+    if not exists(file_path):
         with open(file_path, "w") as fd:
             fd.write(f'{d_mon[m]} {y}\n')
             fd.write("0\n")
@@ -102,7 +103,7 @@ def click_plan_day():
     dir_path = dirname(__file__) + '/data/plans/'
     file_name = d_mon[m] + str(y) + ".txt"
     file_path = dir_path + file_name
-    if exists(file_path) == False:
+    if not exists(file_path):
         with open(file_path, "w") as fd:
             fd.write(f'{d_mon[m]} {y}\n')
             fd.write("0\n")
@@ -142,6 +143,7 @@ def show_day():
     show_plan_menu.geometry('400x800')
     show_plan()
 
+
 def click_show_plans():
     d = day_plans.get()
     s_month = ""
@@ -161,6 +163,7 @@ def click_show_plans():
     show_plan_menu.geometry('400x800')
     show_plan(d, m, y)
 
+
 def show_plan(*args):
     if len(args) == 0:
         today = date.today()
@@ -176,7 +179,7 @@ def show_plan(*args):
     dir_path = dirname(__file__) + '/data/plans/'
     file_name = d_mon[mon] + str(year) + ".txt"
     file_full_name = dir_path + file_name
-    if exists(file_full_name) == False:
+    if not exists(file_full_name):
         lbl_out = Label(show_plan_menu, text=_("Tasks are not scheduled"))
         lbl_out.pack()
     else:
@@ -203,6 +206,7 @@ def show_plan(*args):
     btn_exit.pack()
     show_plan_menu.mainloop()
 
+
 def day():
     main_menu.destroy()
     global day_menu
@@ -219,7 +223,9 @@ def day():
     btn_exit.pack()
     day_menu.mainloop()
 
+
 flag_tr0_plans1 = 0
+
 
 def info_tr(s):
     monthwindow = MonthWindow(dirname(__file__) + '/data/tracker/' + s + '.txt')
@@ -270,7 +276,7 @@ def view_info():
     files = []
     for i in files_indir:
         files.append(i[0:-4])
-    
+
     global combo_files
     combo_files = ttk.Combobox(master=info_plans_menu, values=files, text='Available months:')
     combo_files.pack()
@@ -285,15 +291,15 @@ def view_info():
 
 
 def view_info_plans():
-   global flag_tr0_plans1 
-   flag_tr0_plans1 = 1
-   view_info()
+    global flag_tr0_plans1
+    flag_tr0_plans1 = 1
+    view_info()
 
 
 def view_info_tr():
-   global flag_tr0_plans1 
-   flag_tr0_plans1 = 0
-   view_info()
+    global flag_tr0_plans1
+    flag_tr0_plans1 = 0
+    view_info()
 
 
 def saved_monthes():
@@ -302,8 +308,8 @@ def saved_monthes():
     saved_monthes_menu = Tk()
     saved_monthes_menu.geometry('400x800')
 
-    btn_tr = Button(saved_monthes_menu, text = _('Habit tracker'), command=view_info_tr)
-    btn_plans = Button(saved_monthes_menu, text = _('Plans'), command=view_info_plans)
+    btn_tr = Button(saved_monthes_menu, text=_('Habit tracker'), command=view_info_tr)
+    btn_plans = Button(saved_monthes_menu, text=_('Plans'), command=view_info_plans)
     btn_tr.pack()
     btn_plans.pack()
 
@@ -320,7 +326,7 @@ def click_mon():
     file_path += text_mon
     file_path += text_year
     file_path += ".txt"
-    if exists(file_path) == False:
+    if not exists(file_path):
         with open(file_path, "w") as fd:
             fd.write(f'{text_mon} {text_year}\n')
             fd.write("0\n")
@@ -337,7 +343,7 @@ def click_mon():
             fd.write(str(monthrange(int(text_year), [key for key in d_mon if d_mon[key] == text_mon][0])[1]))
             fd.write("\n")
     else:
-        pass #  сделать вывод пользователю
+        pass  # сделать вывод пользователю
 
 
 def add_month():
@@ -398,7 +404,7 @@ def click_plan_day_fast():
     dir_path = dirname(__file__) + '/data/tracker/'
     file_name = d_mon[m] + str(y) + ".txt"
     file_path = dir_path + file_name
-    if exists(file_path) == False:
+    if not exists(file_path):
         with open(file_path, "w") as fd:
             fd.write(f'{d_mon[m]} {y}\n')
             fd.write("0\n")
@@ -407,7 +413,7 @@ def click_plan_day_fast():
     dir_path = dirname(__file__) + '/data/plans/'
     file_name = d_mon[m] + str(y) + ".txt"
     file_path = dir_path + file_name
-    if exists(file_path) == False:
+    if not exists(file_path):
         with open(file_path, "w") as fd:
             fd.write(f'{d_mon[m]} {y}\n')
             fd.write("0\n")
@@ -653,7 +659,7 @@ class MonthWindow(Tk):
             lbl = Label(master=self.tracker_frame, text='0', height=1)
             self.habitsumlabel_list.append(lbl)
             lbl.grid(row=i, column=self.days_number+1, sticky='e')
-            
+
     def delHabit(self):
         possible_habit_name = self.ent_del.get()
         if possible_habit_name in self.habits_names:

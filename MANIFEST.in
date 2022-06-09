@@ -1,3 +1,4 @@
+include habittracker/po/ru/LC_MESSAGES/gui.po
 include .flake8
 recursive-include test *
 recursive-include docs *

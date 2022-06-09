@@ -22,7 +22,6 @@ class TestPlansAdding(unittest.TestCase):
             output = f.read()
         os.remove(newfilepath)
         assert output == correct_output
-        
 
     def test_update_info(self):
         filepath = os.path.dirname(__file__) + '/test_update_input_plans.txt'
@@ -38,7 +37,6 @@ class TestPlansAdding(unittest.TestCase):
             output = f.read()
         os.remove(newfilepath)
         assert output == correct_output
-        
 
     def test_non_existing_file(self):
         filepath = os.path.dirname(__file__) + '/non-existing.txt'
